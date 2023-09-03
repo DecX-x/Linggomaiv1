@@ -21,11 +21,20 @@ def get_image(key: str) -> Optional[Image.Image]:
 
 def set_image(key: str, img: Image.Image):
     st.session_state[key] = img
-design1 = 'samurai'
+
 
 
 def prompt_and_generate_button(prefix, pipeline_name: PIPELINE_NAMES, **kwargs):
-    prompt = f"A detailed illustration {design1},magic, t-shirt design, red color, dark magic splash, dark, ghotic, t-shirt design, in the style of Studio Ghibil, pastel tetradic colors, 30 vector art, cute and quirky, fantasy art, watercolor effect, boken, Adobe lustrator, hand-drawn, digital painting, low-poly, soft lighting, bird's-eye view, isometric style, retro aesthetic, focused on the character, 4K resolution, photorealistic rendering, using Cinema 40"
+    design1 = st.text_input('What is your design?')
+    Type1 = f"A detailed illustration {design1},magic, t-shirt design, red color, dark magic splash, dark, ghotic, t-shirt design, in the style of Studio Ghibil, pastel tetradic colors, 30 vector art, cute and quirky, fantasy art, watercolor effect, boken, Adobe lustrator, hand-drawn, digital painting, low-poly, soft lighting, bird's-eye view, isometric style, retro aesthetic, focused on the character, 4K resolution, photorealistic rendering, using Cinema 40"
+    Type2 = f'A galaxy-themed design featuring a {design1} wearing a space helmet'
+    Type3 = f"Psychedelic {design1} with neon colors and a swirling, trippy pattern"
+
+    option = st.selectbox('What is your design style?',
+                          (Type1,
+                           Type2,
+                           Type3))
+    prompt = option
     negative_prompt = ""
     
 
@@ -85,6 +94,7 @@ def main():
     st.set_page_config(layout="wide")
     st.title("LinggomAI")
     st.write('T-Shirt Design Generator')
+    
 
     tab1, tab2, tab3 = st.tabs(
         ["TDesign Generator", "", ""]
@@ -101,7 +111,7 @@ def main():
                 set_image(LOADED_IMAGE_KEY, output_image.copy())
                 st.experimental_rerun()
             st.markdown(
-                "The button should also work for inpainting. However, there is a bug in the inpainting canvas so clicking the button will sometimes work for inpainting and sometimes not. It depends on whether you have previously uploaded an image in inpainting."
+                "You can also right-click the image and save it to your computer"
             )
         else:
             st.markdown("No output generated yet")
